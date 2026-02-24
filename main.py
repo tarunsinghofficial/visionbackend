@@ -38,27 +38,9 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────────
-# Allow Vercel deployment URLs via a callback
-_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:3000",
-]
-
-
-def _cors_origin_callback(origin: str) -> bool:
-    """Allow explicit origins + any *.vercel.app subdomain."""
-    if origin in _ALLOWED_ORIGINS:
-        return True
-    if origin.endswith(".vercel.app"):
-        return True
-    return False
-
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_ALLOWED_ORIGINS,
-    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_origins=["*"],  # Allow all origins (tighten after deployment works)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
